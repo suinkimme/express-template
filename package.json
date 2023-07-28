@@ -1,7 +1,7 @@
 {
   "name": "expressTemplate",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.ts",
   "author": "Suin Kim",
   "license": "MIT",
   "scripts": {
