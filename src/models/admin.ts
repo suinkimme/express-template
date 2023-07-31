@@ -1,4 +1,4 @@
-import { PostAdmin, GetAdmin } from '../../src/types/admin';
+import { PostAdmin, GetAdmin } from 'types/admin';
 
 export const createAdmin = async (newAdminInfo: PostAdmin): Promise<string> => {
   const { name } = newAdminInfo;
