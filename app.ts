@@ -1,5 +1,5 @@
 import express from 'express';
-import adminRouter from './src/routes/admin';
+import adminRouter from 'routes/admin';
 
 const app = express();
 app.use(express.json());
