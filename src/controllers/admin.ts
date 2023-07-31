@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { PostAdmin, GetAdmin } from '../types/admin';
-import * as model from '../models/admin';
+import { PostAdmin, GetAdmin } from 'types/admin';
+import * as model from 'models/admin';
 
 export const createAdmin = async (req: Request, res: Response) => {
   const newAdminInfo: PostAdmin = req.body;
