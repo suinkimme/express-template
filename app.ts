@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', adminRouter);
+app.use('/admin', adminRouter);
 
 app.listen(8080, () => {
   console.log(`    서버가 시작됐습니만?`);
