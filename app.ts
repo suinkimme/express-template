@@ -1,11 +1,16 @@
 import express from 'express';
-import adminRouter from 'routes/admin';
+import helmet from 'helmet';
+
+// routers
+import authRouter from 'routes/auth';
 
 const app = express();
+
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
 
 app.listen(8080, () => {
   console.log(`    서버가 시작됐습니만?`);
