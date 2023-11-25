@@ -7,6 +7,7 @@ import { validate } from 'utils';
 
 const router = express.Router();
 
+// 로그인
 router.post(
   '/login',
   [
@@ -15,6 +16,13 @@ router.post(
     validate,
   ],
   controller.login,
+);
+
+// 액세스 토큰 재발급
+router.post(
+  '/refresh',
+  [body('userId').isString().notEmpty(), validate],
+  controller.refreshAccessToken,
 );
 
 export default router;

@@ -12,6 +12,7 @@ export const checkCredentials = async ({
       code: 'success',
       message: '로그인에 성공했습니다.',
       data: {
+        userIdx: 1,
         userId: 'user',
         userName: '홍길동',
         userPhoneNumber: '010-1234-1234',
