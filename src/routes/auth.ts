@@ -19,10 +19,6 @@ router.post(
 );
 
 // 액세스 토큰 재발급
-router.post(
-  '/refresh',
-  [body('userId').isString().notEmpty(), validate],
-  controller.refreshAccessToken,
-);
+router.post('/refresh', controller.refreshAccessToken);
 
 export default router;

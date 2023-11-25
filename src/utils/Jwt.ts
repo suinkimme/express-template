@@ -5,8 +5,9 @@ import { getRedisData } from './Redis';
 
 const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY!;
 
-export const sign = (userId: string) => {
+export const sign = (userId: string, userIdx: number) => {
   const payload = {
+    userIdx,
     userId,
   };
 
@@ -22,7 +23,10 @@ export const verify = (token: string) => {
     decoded = jwt.verify(token, JWT_SECRET_KEY);
     return {
       status: true,
-      userId: decoded.userId,
+      data: {
+        userIdx: decoded.userIdx,
+        userId: decoded.userId,
+      },
     };
   } catch (err) {
     return {
@@ -59,4 +63,8 @@ export const refreshVerify = async (token: string, userId: string) => {
       status: false,
     };
   }
+};
+
+export const decode = async (token: string) => {
+  return jwt.decode(token);
 };
