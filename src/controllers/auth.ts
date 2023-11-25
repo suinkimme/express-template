@@ -7,7 +7,6 @@ import {
   refresh,
   verify,
   refreshVerify,
-  decode,
   setRedisData,
   HTTP_ERROR,
 } from 'utils';
@@ -22,17 +21,13 @@ export const login = async (req: Request, res: Response) => {
     switch (code) {
       case 'success':
         const userId = hasAccount.data.userId;
-        const userIdx = hasAccount.data.userIdx;
 
         //  토큰 생성
-        const accessToken = sign(userId, userIdx);
+        const accessToken = sign(userId);
         const refreshToken = refresh();
 
         // Redis에 토큰 저장
         await setRedisData(userId, refreshToken); // userId 말고 사용자가 모르는 특정 값이면 보안에 더 좋을 듯
-
-        // 사용자에게 데이터 보내기 전에 중요 데이터 제거
-        delete hasAccount.data.userIdx;
 
         return res.status(status).json({
           ...hasAccount,
@@ -54,6 +49,9 @@ export const login = async (req: Request, res: Response) => {
 
 /** 액세스 토큰 재발급 */
 export const refreshAccessToken = async (req: Request, res: Response) => {
+  // 액세스 토큰 재발급 용도
+  const { userId } = req.body;
+
   if (req.headers.authorization && req.headers.refreshtoken) {
     const { authorization, refreshtoken }: any = req.headers;
     const accessToken = authorization.split('Bearer ')[1];
@@ -63,13 +61,8 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
 
     // 액세스 토큰이 만료되었을 때
     if (!accessTokenResult.status) {
-      const accessTokenDecoded: any = await decode(accessToken);
-
       // // 리프레시 토큰 만료 검사
-      const refreshTokenResult = await refreshVerify(
-        refreshtoken,
-        accessTokenDecoded.userId,
-      );
+      const refreshTokenResult = await refreshVerify(refreshtoken, userId);
 
       // 리프레시 토큰'도' 만료되었을 때
       if (!refreshTokenResult.status) {
@@ -80,10 +73,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
         });
       } else {
         // 리프레시 토큰이 유효할 때
-        const newAccessToken = sign(
-          accessTokenDecoded.userId,
-          accessTokenDecoded.userIdx,
-        );
+        const newAccessToken = sign(userId);
         return res.status(200).json({
           status: 200,
           code: 'token_refreshed',
