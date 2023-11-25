@@ -1,4 +1,4 @@
 export * from './Redis';
-export * from './Functions';
+export * from './Middlewares';
 export * from './Jwt';
 export * from './Constants';

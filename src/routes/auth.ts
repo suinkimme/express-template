@@ -3,7 +3,7 @@ import * as controller from 'controllers/auth';
 import { body } from 'express-validator';
 
 // utils
-import { validate } from 'utils';
+import { validateData } from 'utils';
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.post(
   [
     body('id').isString().notEmpty(),
     body('password').isString().notEmpty(),
-    validate,
+    validateData,
   ],
   controller.login,
 );
@@ -21,7 +21,7 @@ router.post(
 // 액세스 토큰 재발급
 router.post(
   '/refresh',
-  [body('userId').isString().notEmpty(), validate],
+  [body('userId').isString().notEmpty(), validateData],
   controller.refreshAccessToken,
 );
 

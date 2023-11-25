@@ -95,10 +95,8 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
     }
   } else {
     // 헤더에 토큰이 포함되어있지 않을 때
-    return res.status(400).json({
-      status: 400,
-      code: 'authentication_required',
-      message: '인증 토큰이 누락되었습니다.',
-    });
+    return res
+      .status(HTTP_ERROR.authenticationRequired.status)
+      .json(HTTP_ERROR.authenticationRequired);
   }
 };
