@@ -9,7 +9,7 @@ export const setRedisData = async (key: string, value: string) => {
   }
 };
 
-/** Redis DB에 데이터를 가져옴 */
+/** Redis DB에서 데이터를 가져옴 */
 export const getRedisData = async (key: string) => {
   try {
     const value = await redis.get(key);
