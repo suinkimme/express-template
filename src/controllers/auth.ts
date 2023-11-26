@@ -9,6 +9,8 @@ import {
   refreshVerify,
   setRedisData,
   HTTP_ERROR,
+  delRedisData,
+  HTTP_SUCCESS,
 } from 'utils';
 
 /** 로그인 */
@@ -47,13 +49,34 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+/** 로그아웃 (토큰 무효화) */
+export const logout = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+  try {
+    const response = await delRedisData(userId);
+    if (response) {
+      return res
+        .status(HTTP_SUCCESS.noContent.status)
+        .json(HTTP_SUCCESS.noContent);
+    } else {
+      return res
+        .status(HTTP_ERROR.badRequest.status)
+        .json(HTTP_ERROR.badRequest);
+    }
+  } catch (err) {
+    return res
+      .status(HTTP_ERROR.serviceUnavailable.status)
+      .json(HTTP_ERROR.serviceUnavailable);
+  }
+};
+
 /** 액세스 토큰 재발급 */
 export const refreshAccessToken = async (req: Request, res: Response) => {
   // 액세스 토큰 재발급 용도
   const { userId } = req.body;
 
   if (req.headers.authorization && req.headers.refreshtoken) {
-    const { authorization, refreshtoken }: any = req.headers;
+    const { authorization, refresh }: any = req.headers;
     const accessToken = authorization.split('Bearer ')[1];
 
     // 액세스 토큰 검사
@@ -62,7 +85,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
     // 액세스 토큰이 만료되었을 때
     if (!accessTokenResult.status) {
       // // 리프레시 토큰 만료 검사
-      const refreshTokenResult = await refreshVerify(refreshtoken, userId);
+      const refreshTokenResult = await refreshVerify(refresh, userId);
 
       // 리프레시 토큰'도' 만료되었을 때
       if (!refreshTokenResult.status) {
@@ -80,7 +103,7 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
           message: '액세스 토큰이 성공적으로 재발급되었습니다.',
           data: {
             accessToken: newAccessToken,
-            refreshToken: refreshtoken,
+            refreshToken: refresh,
           },
         });
       }

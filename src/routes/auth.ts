@@ -11,6 +11,7 @@ const router = express.Router();
 router.post(
   '/login',
   [
+    body('ip').isIP().notEmpty(),
     body('id').isString().notEmpty(),
     body('password').isString().notEmpty(),
     validateData,
@@ -18,10 +19,25 @@ router.post(
   controller.login,
 );
 
+// 로그아웃
+router.post(
+  '/logout',
+  [
+    body('ip').isIP().notEmpty(),
+    body('userId').isString().notEmpty(),
+    validateData,
+  ],
+  controller.logout,
+);
+
 // 액세스 토큰 재발급
 router.post(
   '/refresh',
-  [body('userId').isString().notEmpty(), validateData],
+  [
+    body('ip').isIP().notEmpty(),
+    body('userId').isString().notEmpty(),
+    validateData,
+  ],
   controller.refreshAccessToken,
 );
 

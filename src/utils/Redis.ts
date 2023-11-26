@@ -20,3 +20,12 @@ export const getRedisData = async (key: string) => {
     console.warn(err);
   }
 };
+
+/** Reids DB에서 데이터를 삭제함 */
+export const delRedisData = async (key: string) => {
+  try {
+    return await redis.del(key);
+  } catch (err) {
+    console.warn(err);
+  }
+};

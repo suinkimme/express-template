@@ -12,7 +12,7 @@ export const sign = (userId: string) => {
 
   return jwt.sign(payload, JWT_SECRET_KEY, {
     algorithm: 'HS256',
-    expiresIn: 30,
+    expiresIn: '1h',
   });
 };
 
@@ -36,7 +36,7 @@ export const verify = (token: string) => {
 export const refresh = () => {
   return jwt.sign({}, JWT_SECRET_KEY, {
     algorithm: 'HS256',
-    expiresIn: 60,
+    expiresIn: '14d',
   });
 };
 

@@ -20,7 +20,7 @@ export const checkCredentials = async ({
     };
   }
 
-  if (id === 'blockuser' && password === '1234') {
+  if (id === 'blockeduser' && password === '1234') {
     return {
       status: 403,
       code: 'user_blocked',

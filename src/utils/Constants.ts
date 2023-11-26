@@ -10,4 +10,17 @@ export const HTTP_ERROR = {
     code: 'authentication_required',
     message: '인증 토큰이 누락되었습니다.',
   },
+  badRequest: {
+    status: 400,
+    code: 'bad_request',
+    message: '요청이 부적절하거나 유효하지 않습니다.',
+  },
+};
+
+export const HTTP_SUCCESS = {
+  noContent: {
+    status: 204,
+    code: 'no_content',
+    message: '성공적으로 삭제되었습니다.',
+  },
 };

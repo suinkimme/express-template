@@ -3,6 +3,7 @@ import helmet from 'helmet';
 
 // routers
 import authRouter from 'routes/auth';
+import testRouter from 'routes/test';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', authRouter);
+app.use('/test', testRouter);
 
 app.listen(8080, () => {
   console.log(`    서버가 시작됐습니만?`);
