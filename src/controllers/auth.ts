@@ -74,8 +74,9 @@ export const logout = async (req: Request, res: Response) => {
 export const refreshAccessToken = async (req: Request, res: Response) => {
   // 액세스 토큰 재발급 용도
   const { userId } = req.body;
+  console.log(req.headers);
 
-  if (req.headers.authorization && req.headers.refreshtoken) {
+  if (req.headers.authorization && req.headers.refresh) {
     const { authorization, refresh }: any = req.headers;
     const accessToken = authorization.split('Bearer ')[1];
 
